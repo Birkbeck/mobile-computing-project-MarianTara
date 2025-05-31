@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:fitsSystemWindows="true">
 
-    <!-- Modular title -->
+    <!-- app title -->
     <include layout="@layout/toolbar_title" />
 
     <!-- Search bar -->
@@ -14,6 +14,7 @@
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:hint="@string/search_recipes"
         android:inputType="text"
         android:layout_marginTop="8dp" />

@@ -5,30 +5,36 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
+    <!-- app title -->
+    <include layout="@layout/toolbar_title" />
+
     <TextView
         android:id="@+id/confirmationMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you sure you want to delete this?"
+        android:text="@string/are_you_sure_you_want_to_delete_this"
         android:textSize="16sp"
         android:layout_marginBottom="16dp" />
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/yesButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yes" />
+            android:text="@string/yes" />
 
         <Button
             android:id="@+id/noButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No, thanks"
+            android:text="@string/no_thanks"
             android:layout_marginStart="16dp" />
     </LinearLayout>
 </LinearLayout>

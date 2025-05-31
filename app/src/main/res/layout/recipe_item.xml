@@ -16,6 +16,6 @@
         android:id="@+id/recipeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recipe Title"
+        android:text="Recipe Title placeholder"
         android:layout_marginTop="4dp" />
 </LinearLayout>
