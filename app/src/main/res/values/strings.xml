@@ -2,4 +2,7 @@
     <string name="app_name">Culinary Companion</string>
     <string name="create_recipe">Create Recipe</string>
     <string name="search_recipes">Search recipes</string>
+    <string name="delete">Delete </string>
+    <string name="edit">Edit </string>
+    <string name="recipe_image">Recipe image </string>
 </resources>

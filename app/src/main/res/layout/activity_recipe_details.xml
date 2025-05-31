@@ -2,42 +2,54 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Edit and Delete icons (placeholders) -->
+        <!-- Modular app title -->
+        <include layout="@layout/toolbar_title" />
+
+        <!-- Edit + Delete aligned right -->
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="8dp">
 
             <ImageButton
+                android:id="@+id/editButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="Edit" />
+                android:contentDescription="@string/edit"
+                android:background="?attr/selectableItemBackgroundBorderless" />
 
             <ImageButton
+                android:id="@+id/deleteButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@android:drawable/ic_menu_delete"
-                android:contentDescription="Delete"
-                android:layout_marginStart="16dp" />
+                android:contentDescription="@string/delete"
+                android:layout_marginStart="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless" />
         </LinearLayout>
 
-        <!-- Image placeholder -->
+        <!-- Recipe image -->
         <ImageView
             android:id="@+id/recipeImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginTop="8dp"
             android:background="#B0B0B0"
-            android:contentDescription="Recipe image" />
+            android:contentDescription="@string/recipe_image" />
 
+
+<!--        placeholder only, meaning no text in strings.xml just yet-->
         <!-- Category -->
         <TextView
             android:id="@+id/recipeCategory"
@@ -72,8 +84,5 @@
             android:layout_height="wrap_content"
             android:text="Cooking instructions..."
             android:layout_marginTop="8dp" />
-
-
-
     </LinearLayout>
 </ScrollView>
