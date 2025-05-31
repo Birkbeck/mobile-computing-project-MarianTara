@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CulinaryCompanion"
         tools:targetApi="31">
-<<<<<<< HEAD
 
         <activity
             android:name=".ConfirmationDialogActivity"
@@ -30,33 +29,17 @@
             android:name=".CategoryActivity"
             android:exported="false" />
 
-=======
->>>>>>> 3a59ac5d1480713034dcf3b67c4e5ef594fedf4e
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CulinaryCompanion">
-<<<<<<< HEAD
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
     </application>
 
 </manifest>
-=======
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
-
-</manifest>
->>>>>>> 3a59ac5d1480713034dcf3b67c4e5ef594fedf4e

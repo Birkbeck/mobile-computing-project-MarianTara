@@ -1,32 +1,7 @@
 package co.uk.bbk.culinarycompanion
 
 import android.os.Bundle
-<<<<<<< HEAD
 import android.view.Menu
-import androidx.activity.ComponentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import co.uk.bbk.culinarycompanion.databinding.ActivityMainBinding
-
-class MainActivity : ComponentActivity() {
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Setup RecyclerView (mock only for Coursework 1)
-        binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
-
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_menu, menu)
-        return true
-    }
-}
-=======
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -37,12 +12,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.recyclerview.widget.LinearLayoutManager
+import co.uk.bbk.culinarycompanion.databinding.ActivityMainBinding
 import co.uk.bbk.culinarycompanion.ui.theme.CulinaryCompanionTheme
 
 class MainActivity : ComponentActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Enable edge-to-edge system bars
         enableEdgeToEdge()
+
+        // Setup ViewBinding + RecyclerView
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Setup Compose content
         setContent {
             CulinaryCompanionTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -53,6 +41,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_menu, menu)
+        return true
     }
 }
 
@@ -71,4 +64,3 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
->>>>>>> 3a59ac5d1480713034dcf3b67c4e5ef594fedf4e
