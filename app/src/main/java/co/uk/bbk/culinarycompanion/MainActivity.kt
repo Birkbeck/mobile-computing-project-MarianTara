@@ -1,26 +1,24 @@
 package co.uk.bbk.culinarycompanion
 
 import android.os.Bundle
-import android.view.Menu
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.culinarycompanion.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Setup ViewBinding and RecyclerView
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Setup RecyclerView (static/mock for CW1)
         binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_menu, menu)
-        return true
+        // Setup button (for CW2 logic later)
+        binding.createRecipeButton.setOnClickListener {
+            // TODO: open create recipe screen
+        }
     }
 }
