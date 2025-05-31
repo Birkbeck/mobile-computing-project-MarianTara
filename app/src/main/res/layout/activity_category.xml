@@ -3,21 +3,43 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:fitsSystemWindows="true">
 
     <!-- Modular title -->
     <include layout="@layout/toolbar_title" />
+
+    <!-- Search bar -->
     <EditText
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_recipes"
-        android:inputType="text" />
+        android:inputType="text"
+        android:layout_marginTop="8dp" />
 
+    <!-- Create Recipe button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/createRecipeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_recipe"
+            style="@style/OutlinedButton" />
+    </LinearLayout>
+
+    <!-- RecyclerView  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipeListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical" />
+
 </LinearLayout>
