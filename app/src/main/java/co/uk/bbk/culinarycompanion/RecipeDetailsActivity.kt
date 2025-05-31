@@ -1,20 +1,17 @@
 package co.uk.bbk.culinarycompanion
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.activity.ComponentActivity
+import co.uk.bbk.culinarycompanion.databinding.ActivityRecipeDetailsBinding
 
-class RecipeDetailsActivity : AppCompatActivity() {
+class RecipeDetailsActivity : ComponentActivity() {
+    private lateinit var binding: ActivityRecipeDetailsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_recipe_details)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = ActivityRecipeDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // CW1: just display static placeholders
     }
 }

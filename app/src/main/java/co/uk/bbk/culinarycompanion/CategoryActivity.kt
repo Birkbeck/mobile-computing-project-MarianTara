@@ -1,20 +1,19 @@
 package co.uk.bbk.culinarycompanion
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.activity.ComponentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import co.uk.bbk.culinarycompanion.databinding.ActivityCategoryBinding
 
-class CategoryActivity : AppCompatActivity() {
+class CategoryActivity : ComponentActivity() {
+    private lateinit var binding: ActivityCategoryBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_category)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = ActivityCategoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // For CW1: no adapter needed, just RecyclerView layout
+        binding.recipeListRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 }
