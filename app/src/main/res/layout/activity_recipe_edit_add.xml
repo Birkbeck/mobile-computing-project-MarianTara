@@ -9,13 +9,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- app title -->
+        <include layout="@layout/toolbar_title" />
+
         <!-- Image selector -->
         <ImageView
             android:id="@+id/selectImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#B0B0B0"
-            android:contentDescription="Select Image" />
+            android:contentDescription="@string/select_image" />
 
         <!-- Category dropdown -->
         <Spinner
@@ -30,7 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Recipe Title" />
+            android:autofillHints=""
+            android:hint="@string/recipe_title" />
 
         <!-- Ingredients input -->
         <EditText
@@ -38,7 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="List of ingredients"
+            android:autofillHints=""
+            android:hint="@string/list_of_ingredients"
             android:inputType="textMultiLine" />
 
         <!-- Instructions input -->
@@ -47,11 +52,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Cooking instructions"
+            android:autofillHints=""
+            android:hint="@string/cooking_instructions"
             android:inputType="textMultiLine" />
 
         <!-- Save and Cancel buttons -->
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -59,16 +66,18 @@
 
             <Button
                 android:id="@+id/saveButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save" />
+                android:text="@string/save" />
 
             <Button
                 android:id="@+id/cancelButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Cancel" />
+                android:text="@string/cancel" />
         </LinearLayout>
 
     </LinearLayout>

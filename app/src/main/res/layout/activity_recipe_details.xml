@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Modular app title -->
+        <!-- app title -->
         <include layout="@layout/toolbar_title" />
 
         <!-- Edit + Delete aligned right -->
