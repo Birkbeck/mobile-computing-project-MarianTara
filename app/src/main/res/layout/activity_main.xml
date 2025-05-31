@@ -19,10 +19,12 @@
             android:id="@+id/createRecipeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Recipe" />
+            android:text="@string/create_recipe"
+            style="@style/OutlinedButton" />
+
     </LinearLayout>
 
-    <!-- Main content -->
+    <!-- Main content(categories) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoryRecyclerView"
         android:layout_width="match_parent"

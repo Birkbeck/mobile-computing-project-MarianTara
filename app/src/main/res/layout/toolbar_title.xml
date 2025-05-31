@@ -8,5 +8,5 @@
     android:textStyle="bold"
     android:textSize="20sp"
     android:padding="16dp"
-    android:background="@android:color/black"
-    android:textColor="@android:color/white" />
+    android:background="@android:color/white"
+    android:textColor="@android:color/black" />

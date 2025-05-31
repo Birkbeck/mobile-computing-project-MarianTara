@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <!-- Modular title -->
+    <include layout="@layout/toolbar_title" />
     <EditText
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search recipes"
+        android:hint="@string/search_recipes"
         android:inputType="text" />
 
     <androidx.recyclerview.widget.RecyclerView
