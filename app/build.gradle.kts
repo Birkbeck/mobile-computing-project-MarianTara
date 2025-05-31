@@ -26,10 +26,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+<<<<<<< HEAD
     buildFeatures {
         viewBinding = true
 
     }
+=======
+>>>>>>> 3a59ac5d1480713034dcf3b67c4e5ef594fedf4e
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -39,7 +42,11 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+<<<<<<< HEAD
         viewBinding = true
+=======
+        compose = true
+>>>>>>> 3a59ac5d1480713034dcf3b67c4e5ef594fedf4e
     }
 }
 
@@ -53,11 +60,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+<<<<<<< HEAD
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.appcompat)
+=======
+>>>>>>> 3a59ac5d1480713034dcf3b67c4e5ef594fedf4e
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
