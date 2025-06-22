@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.culinarycompanion.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var mockViewModel: MockDataViewModel
+    private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) // Force light mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -21,10 +24,22 @@ class MainActivity : AppCompatActivity() {
         mockViewModel = ViewModelProvider(this)[MockDataViewModel::class.java]
         mockViewModel.populateDatabaseIfEmpty()
 
-        // Setup RecyclerView (static/mock for CW1)
-        binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
+        // Recipe-level ViewModel
+        recipeViewModel = ViewModelProvider(this)[RecipeViewModel::class.java]
+        recipeViewModel.recipeDao = RecipeDatabase.getInstance(this).recipeDao()
+        recipeViewModel.getGroupedRecipes()
 
-        // Setup button (for CW2 logic later)
+        // Category RecyclerView
+        categoryAdapter = CategoryAdapter()
+        binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.categoryRecyclerView.adapter = categoryAdapter
+
+        // Update UI when data arrives
+        recipeViewModel.groupedRecipes.observe(this) { grouped ->
+            categoryAdapter.updateData(grouped)
+        }
+
+        // Create-recipe button (hooked up later)
         binding.createRecipeButton.setOnClickListener {
             // TODO: open create recipe screen
         }

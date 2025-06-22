@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 class RecipeViewModel : ViewModel() {
     val _recipes = MutableLiveData<List<Recipe>>()
     val recipes: LiveData<List<Recipe>> = _recipes
+    private val _groupedRecipes = MutableLiveData<Map<Category, List<Recipe>>>()
+    val groupedRecipes: LiveData<Map<Category, List<Recipe>>> = _groupedRecipes
 
     var recipeDao: RecipeDao? = null
 
@@ -31,6 +33,15 @@ class RecipeViewModel : ViewModel() {
         }
     }
 
+    fun getGroupedRecipes() {
+        viewModelScope.launch {
+            recipeDao?.let { dao ->
+                val allRecipes = dao.getAllRecipes()
+                val grouped = allRecipes.groupBy { it.category }
+                _groupedRecipes.value = grouped
+            }
+        }
+    }
 
     fun insertRecipe(recipe: Recipe) {
         viewModelScope.launch {
