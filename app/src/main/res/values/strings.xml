@@ -15,4 +15,8 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="add_mock_recipes">Add Mock Recipes</string>
+    <string name="culinary_companion">Culinary Companion</string>
+    <string name="edit_recipe" />
+    <string name="delete_recipe" />
+    <string name="list_of_ingredients_n_eggs_n_flour">List of ingredients:\n- Eggs\n- Flour</string>
 </resources>

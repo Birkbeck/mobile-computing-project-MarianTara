@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import co.uk.bbk.culinarycompanion.databinding.RecipeItemBinding
 
 class RecipeAdapter(
-    private var recipeList: List<Recipe>
+    private var recipeList: List<Recipe>,
+    private val onEditClick: ((Recipe) -> Unit)? = null,
+    private val onDeleteClick: ((Recipe) -> Unit)? = null
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(val binding: RecipeItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -23,10 +25,10 @@ class RecipeAdapter(
 
         val context = holder.itemView.context
 
-        // Log the raw URI
-        Log.d("RecipeAdapter", "Trying to load image for: ${recipe.imageUri}")
+//        // Log the raw URI
+//        Log.d("RecipeAdapter", "Trying to load image for: ${recipe.imageUri}")
 
-        // Extract the actual image name from the URI
+        // Extract image name from the URI
         val imageName = recipe.imageUri.substringAfterLast("/")
 
         val imageResId = context.resources.getIdentifier(
@@ -41,8 +43,8 @@ class RecipeAdapter(
             holder.binding.recipeImage.setImageResource(R.drawable.placeholder_image)
             Log.w("RecipeAdapter", "Image not found for name: $imageName")
         }
-    }
 
+    }
 
 
 
@@ -52,4 +54,11 @@ class RecipeAdapter(
         recipeList = newList
         notifyDataSetChanged()
     }
+    fun updateData(newRecipes: List<Recipe>) {
+        recipeList = newRecipes
+        notifyDataSetChanged()
+    }
+
+
+
 }

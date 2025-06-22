@@ -3,7 +3,7 @@
     android:id="@+id/pageTitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Culinary Companion"
+    android:text="@string/culinary_companion"
     android:gravity="center"
     android:textStyle="bold"
     android:textSize="20sp"

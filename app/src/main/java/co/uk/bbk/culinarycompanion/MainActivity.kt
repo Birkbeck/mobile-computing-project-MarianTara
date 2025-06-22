@@ -1,5 +1,6 @@
 package co.uk.bbk.culinarycompanion
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -16,30 +17,41 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Disable dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        // Set up view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up ViewModel and insert mock data if DB is empty
+        // Populate mock data
         mockViewModel = ViewModelProvider(this)[MockDataViewModel::class.java]
         mockViewModel.populateDatabaseIfEmpty()
 
-        // Recipe-level ViewModel
+        // Initialise ViewModel and DAO
         recipeViewModel = ViewModelProvider(this)[RecipeViewModel::class.java]
         recipeViewModel.recipeDao = RecipeDatabase.getInstance(this).recipeDao()
         recipeViewModel.getGroupedRecipes()
 
-        // Category RecyclerView
-        categoryAdapter = CategoryAdapter()
+        // Set up adapter and category click handler
+        val categoryAdapter = CategoryAdapter { selectedCategory ->
+            // Launch category-specific recipe view
+            val intent = Intent(this, CategoryActivity::class.java)
+            intent.putExtra("category_name", selectedCategory.name)
+            startActivity(intent)
+        }
+
+        // Set up RecyclerView
         binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.categoryRecyclerView.adapter = categoryAdapter
 
-        // Update UI when data arrives
+        // Observe data
         recipeViewModel.groupedRecipes.observe(this) { grouped ->
             categoryAdapter.updateData(grouped)
         }
 
-        // Create-recipe button (hooked up later)
+        // Handle create recipe button click
         binding.createRecipeButton.setOnClickListener {
             // TODO: open create recipe screen
         }

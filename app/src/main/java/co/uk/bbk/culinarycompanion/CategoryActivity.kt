@@ -1,19 +1,73 @@
 package co.uk.bbk.culinarycompanion
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.culinarycompanion.databinding.ActivityCategoryBinding
 
-class CategoryActivity : ComponentActivity() {
+class CategoryActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityCategoryBinding
+    private val viewModel: CategoryViewModel by viewModels()
+    private lateinit var adapter: CategoryRecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // For CW1: no adapter needed, just RecyclerView layout
+        // Get category name from intent
+        val categoryName = intent.getStringExtra("category_name") ?: ""
+        Log.d("CategoryActivity", "Received category: $categoryName")
+
+        try {
+            val categoryEnum = Category.valueOf(categoryName)
+            viewModel.loadRecipesForCategory(categoryEnum)
+        } catch (e: IllegalArgumentException) {
+            Toast.makeText(this, "Invalid category: $categoryName", Toast.LENGTH_SHORT).show()
+            Log.e("CategoryActivity", "Invalid category passed: $categoryName")
+        }
+
+        // Set up adapter
+        adapter = CategoryRecipeAdapter(
+            recipeList = listOf(),
+            onEditClick = { recipe ->
+                // TODO: open edit screen
+            },
+            onDeleteClick = { recipe ->
+                viewModel.deleteRecipe(recipe)
+            }
+        )
+
         binding.recipeListRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recipeListRecyclerView.adapter = adapter
+
+        // Observe recipe list
+        viewModel.filteredRecipes.observe(this) { recipes ->
+            adapter.updateData(recipes)
+            Log.d("CategoryActivity", "Loaded ${recipes.size} recipes")
+        }
+
+        // Search input logic
+        binding.searchBar.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.setSearchQuery(s.toString())
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        // Optional create button handler
+        binding.createRecipeButton.setOnClickListener {
+            // TODO: implement creation flow
+        }
+
+        // Prevent search bar from grabbing focus
+        binding.root.clearFocus()
     }
 }
