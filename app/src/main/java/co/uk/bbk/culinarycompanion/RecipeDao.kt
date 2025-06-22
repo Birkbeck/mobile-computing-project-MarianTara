@@ -22,4 +22,16 @@ interface RecipeDao {
 
     @Delete
     suspend fun delete(recipe: Recipe)
+
+    //used for mock data
+    @Query("SELECT COUNT(*) FROM Recipes")
+    suspend fun getRecipeCount(): Int
+
+    @Insert
+    suspend fun insertAll(recipes: List<Recipe>)
+
+    @Query("SELECT * FROM Recipes")
+    suspend fun getAllRecipesList(): List<Recipe>
+
+
 }
