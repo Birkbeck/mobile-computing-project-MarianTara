@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Disable dark mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//
+//        // Disable dark mode
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         // Set up view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,9 +51,10 @@ class MainActivity : AppCompatActivity() {
             categoryAdapter.updateData(grouped)
         }
 
-        // Handle create recipe button click
         binding.createRecipeButton.setOnClickListener {
-            // TODO: open create recipe screen
+            val intent = Intent(this, RecipeEditAddActivity::class.java)
+            startActivity(intent)
         }
+
     }
 }

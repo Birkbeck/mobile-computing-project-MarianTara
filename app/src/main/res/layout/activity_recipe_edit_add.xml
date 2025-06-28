@@ -1,83 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- app title -->
-        <include layout="@layout/toolbar_title" />
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Culinary Companion"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="12dp" />
 
-        <!-- Image selector -->
         <ImageView
-            android:id="@+id/selectImage"
+            android:id="@+id/recipeImageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="#B0B0B0"
-            android:contentDescription="@string/select_image" />
+            android:src="@drawable/placeholder_image"
+            android:scaleType="centerCrop"
+            android:background="#CCCCCC"
+            android:contentDescription="Recipe image"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Category dropdown -->
+
+        <Spinner
+            android:id="@+id/imageSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+
         <Spinner
             android:id="@+id/categorySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginBottom="16dp" />
 
-        <!-- Title input -->
         <EditText
             android:id="@+id/recipeTitleInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:autofillHints=""
-            android:hint="@string/recipe_title" />
+            android:hint="Recipe Title"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Ingredients input -->
         <EditText
             android:id="@+id/ingredientsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:autofillHints=""
-            android:hint="@string/list_of_ingredients"
-            android:inputType="textMultiLine" />
+            android:hint="List of ingredients"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Instructions input -->
         <EditText
             android:id="@+id/instructionsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:autofillHints=""
-            android:hint="@string/cooking_instructions"
-            android:inputType="textMultiLine" />
+            android:hint="Cooking instructions"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:layout_marginBottom="24dp" />
 
-        <!-- Save and Cancel buttons -->
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/saveButton"
-                style="?android:attr/buttonBarButtonStyle"
+                android:text="SAVE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/save" />
+                android:layout_marginEnd="16dp" />
 
             <Button
                 android:id="@+id/cancelButton"
-                style="?android:attr/buttonBarButtonStyle"
+                android:text="CANCEL"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/cancel" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>

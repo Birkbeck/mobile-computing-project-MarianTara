@@ -88,8 +88,10 @@ class CategoryActivity : AppCompatActivity() {
 
         // create button handler
         binding.createRecipeButton.setOnClickListener {
-            // TODO: implement creation flow
+            val intent = Intent(this, RecipeEditAddActivity::class.java)
+            startActivity(intent)
         }
+
 
         // Prevent search bar from grabbing focus on launch
         binding.root.clearFocus()
