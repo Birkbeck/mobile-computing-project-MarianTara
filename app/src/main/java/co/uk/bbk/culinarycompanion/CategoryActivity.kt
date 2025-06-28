@@ -41,6 +41,9 @@ class CategoryActivity : AppCompatActivity() {
             },
             onDeleteClick = { recipe ->
                 viewModel.deleteRecipe(recipe)
+            },
+            onRecipeClick = { recipe ->
+                RecipeDetailsActivity.start(this, recipe)
             }
         )
 

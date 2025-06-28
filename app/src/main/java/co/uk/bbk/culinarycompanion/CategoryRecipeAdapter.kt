@@ -13,7 +13,8 @@ import co.uk.bbk.culinarycompanion.databinding.CategoryRecipeItemBinding
 class CategoryRecipeAdapter(
     private var recipeList: List<Recipe>,
     private val onEditClick: (Recipe) -> Unit,
-    private val onDeleteClick: (Recipe) -> Unit
+    private val onDeleteClick: (Recipe) -> Unit,
+    private val onRecipeClick: (Recipe) -> Unit
 ) : RecyclerView.Adapter<CategoryRecipeAdapter.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(val binding: CategoryRecipeItemBinding) :
@@ -33,6 +34,7 @@ class CategoryRecipeAdapter(
         val context = holder.itemView.context
 
         holder.binding.recipeTitle.text = recipe.title
+
         val formattedIngredients = "List of ingredients:\n" + recipe.ingredients
             .split(",")
             .joinToString("\n") { "- ${it.trim()}" }
@@ -49,10 +51,16 @@ class CategoryRecipeAdapter(
             Log.w("CategoryRecipeAdapter", "Image not found for name: $imageName")
         }
 
+        //  opening recipe details
+        holder.itemView.setOnClickListener {
+            onRecipeClick(recipe)
+        }
+
         // Edit & Delete actions
         holder.binding.editButton.setOnClickListener { onEditClick(recipe) }
         holder.binding.deleteButton.setOnClickListener { onDeleteClick(recipe) }
     }
+
 
 
     override fun getItemCount(): Int = recipeList.size

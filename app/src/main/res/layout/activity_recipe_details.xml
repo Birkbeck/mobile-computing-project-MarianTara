@@ -13,7 +13,7 @@
         <!-- app title -->
         <include layout="@layout/toolbar_title" />
 
-        <!-- Edit + Delete aligned right -->
+        <!-- Edit + Delete  -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,13 +39,13 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
         </LinearLayout>
 
-        <!-- Recipe image -->
+        <!-- Image -->
         <ImageView
             android:id="@+id/recipeImage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
-            android:background="#B0B0B0"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/recipe_image" />
 
 
@@ -68,14 +68,15 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
-
         <!-- Ingredients -->
         <TextView
-            android:id="@+id/recipeIngredients"
-            android:layout_width="wrap_content"
+            android:id="@+id/ingredientList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingredients:\n- Item 1\n- Item 2"
-            android:layout_marginTop="8dp" />
+            android:text="@string/list_of_ingredients_n_eggs_n_flour"
+            android:textSize="14sp"
+            android:textColor="#666"
+            android:layout_marginTop="4dp" />
 
         <!-- Cooking instructions -->
         <TextView
