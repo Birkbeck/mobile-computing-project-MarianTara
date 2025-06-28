@@ -24,6 +24,7 @@ class RecipeEditAddActivity : ComponentActivity() {
 
         setupCategorySpinner()
         setupImageSpinner()
+        viewModel.loadImageOptions()
 
         binding.saveButton.setOnClickListener {
             val title = binding.recipeTitleInput.text.toString().trim()
@@ -69,29 +70,30 @@ class RecipeEditAddActivity : ComponentActivity() {
     }
 
     private fun setupImageSpinner() {
-        viewModel.imageNames.observe(this) { imageNames ->
+        viewModel.imageNames.observe(this) { displayNames ->
             val placeholder = "Select image"
-            val displayList = listOf(placeholder) + imageNames
+            val options = listOf(placeholder) + displayNames
 
             val adapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_spinner_item,
-                displayList
+                options
             ).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
 
             binding.imageSpinner.adapter = adapter
-            binding.imageSpinner.setSelection(0) // Show placeholder text initially
+            binding.imageSpinner.setSelection(0)
 
             binding.imageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     if (position > 0) {
-                        selectedImageName = imageNames[position - 1]
+                        val selectedDisplayName = displayNames[position - 1]
+                        selectedImageName = selectedDisplayName.replace(' ', '_')  // restore actual resource name
                         updateImagePreview()
                     } else {
                         selectedImageName = null
-                        // Keep placeholder_image visible — no change needed
+                        binding.recipeImageView.setImageResource(R.drawable.placeholder_image)
                     }
                 }
 
@@ -100,16 +102,19 @@ class RecipeEditAddActivity : ComponentActivity() {
                 }
             }
         }
-
-        viewModel.loadImageOptions()
     }
+
 
 
     private fun updateImagePreview() {
-        val name = selectedImageName ?: return
-        val resId = resources.getIdentifier(name, "drawable", packageName)
-        binding.recipeImageView.setImageResource(
-            if (resId != 0) resId else R.drawable.placeholder_image
-        )
+        selectedImageName?.let { imageName ->
+            val imageResId = resources.getIdentifier(imageName, "drawable", packageName)
+            if (imageResId != 0) {
+                binding.recipeImageView.setImageResource(imageResId)
+            } else {
+                binding.recipeImageView.setImageResource(R.drawable.placeholder_image)
+            }
+        }
     }
+
 }

@@ -15,20 +15,23 @@ class RecipeEditAddViewModel(application: Application) : AndroidViewModel(applic
     private val _imageNames = MutableLiveData<List<String>>()
     val imageNames: LiveData<List<String>> = _imageNames
 
-
     fun loadImageOptions() {
-        viewModelScope.launch {
-            val rawUris = recipeDao.getAllImageOptions()
-            val imageNames = rawUris.mapNotNull { uri ->
-                uri.substringAfterLast('/')
-                    .replace('_', ' ')
-            }.distinct().sorted()
+        viewModelScope.launch(Dispatchers.Default) {
+            val fields = R.drawable::class.java.fields
+
+            val imageNames = fields.mapNotNull { field ->
+                try {
+                    val name = field.name
+                    if (name.endsWith("_preview") ) null
+                    else name.replace('_', ' ')
+                } catch (e: Exception) {
+                    null
+                }
+            }.sorted()
+
             _imageNames.postValue(imageNames)
         }
     }
-
-
-
 
     fun insertRecipe(recipe: Recipe, onComplete: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
