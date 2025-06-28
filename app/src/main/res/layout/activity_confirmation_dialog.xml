@@ -1,40 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
-
-    <!-- app title -->
-    <include layout="@layout/toolbar_title" />
-
-    <TextView
-        android:id="@+id/confirmationMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/are_you_sure_you_want_to_delete_this"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:orientation="horizontal"
+        android:id="@+id/dialogContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:elevation="4dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
-            android:id="@+id/yesButton"
-            style="?android:attr/buttonBarButtonStyle"
+        <!-- App Title -->
+        <include layout="@layout/toolbar_title" />
+
+        <!-- Confirmation Message -->
+        <TextView
+            android:id="@+id/confirmationMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yes" />
+            android:text="@string/are_you_sure_you_want_to_delete_this"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:textAlignment="center"
+            android:gravity="center" />
 
-        <Button
-            android:id="@+id/noButton"
-            style="?android:attr/buttonBarButtonStyle"
+        <!-- Buttons Row -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_thanks"
-            android:layout_marginStart="16dp" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/yesButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes" />
+
+            <Button
+                android:id="@+id/noButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_thanks"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

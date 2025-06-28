@@ -43,8 +43,10 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
     fun deleteRecipe(recipe: Recipe) {
         viewModelScope.launch {
             dao.delete(recipe)
-            updateFilteredRecipes()
+            loadRecipesForCategory(recipe.category)
         }
+
     }
+
 }
 

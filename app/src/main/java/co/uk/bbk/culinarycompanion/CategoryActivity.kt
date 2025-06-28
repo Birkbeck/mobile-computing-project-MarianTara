@@ -1,10 +1,13 @@
 package co.uk.bbk.culinarycompanion
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +18,21 @@ class CategoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCategoryBinding
     private val viewModel: CategoryViewModel by viewModels()
     private lateinit var adapter: CategoryRecipeAdapter
+
+    private var selectedRecipe: Recipe? = null
+
+    // confirmation view Launcher
+    private val confirmDeleteLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val deletedRecipe =
+                    result.data?.getSerializableExtra("confirmed_recipe") as? Recipe
+                deletedRecipe?.let {
+                    viewModel.deleteRecipe(it)
+                    Toast.makeText(this, "Recipe deleted", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +58,10 @@ class CategoryActivity : AppCompatActivity() {
                 // TODO: open edit screen
             },
             onDeleteClick = { recipe ->
-                viewModel.deleteRecipe(recipe)
+                selectedRecipe = recipe
+                val intent = Intent(this, ConfirmationDialogActivity::class.java)
+                intent.putExtra("recipe", recipe)
+                confirmDeleteLauncher.launch(intent)
             },
             onRecipeClick = { recipe ->
                 RecipeDetailsActivity.start(this, recipe)
@@ -65,12 +86,12 @@ class CategoryActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // Optional create button handler
+        // create button handler
         binding.createRecipeButton.setOnClickListener {
             // TODO: implement creation flow
         }
 
-        // Prevent search bar from grabbing focus
+        // Prevent search bar from grabbing focus on launch
         binding.root.clearFocus()
     }
 }
