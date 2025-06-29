@@ -4,21 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.IntentCompat
 import co.uk.bbk.culinarycompanion.databinding.ActivityRecipeDetailsBinding
 
 class RecipeDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecipeDetailsBinding
-    private lateinit var recipe: Recipe
+    private val viewModel: RecipeDetailsViewModel by viewModels()
 
-    private val confirmDeleteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            setResult(RESULT_OK, Intent().apply {
-                putExtra("recipe", recipe)
-            })
+    private val confirmDeleteLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == RESULT_OK) {
             finish()
         }
     }
@@ -28,37 +26,51 @@ class RecipeDetailsActivity : AppCompatActivity() {
         binding = ActivityRecipeDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recipe = IntentCompat.getSerializableExtra(intent, "recipe", Recipe::class.java)!!
+        val recipe = intent.getSerializableExtra("recipe") as? Recipe
+        if (recipe == null) {
+            finish()
+            return
+        }
 
-        val imageName = recipe.imageUri.substringAfterLast("/")
-        val imageResId = resources.getIdentifier(imageName, "drawable", packageName)
-        val drawable = if (imageResId != 0)
-            ContextCompat.getDrawable(this, imageResId)
-        else
-            ContextCompat.getDrawable(this, R.drawable.placeholder_image)
+        viewModel.setRecipe(recipe)
 
-        binding.recipeImage.setImageDrawable(drawable)
-        binding.recipeCategory.text = "Category: ${recipe.category}"
-        binding.recipeTitle.text = recipe.title
+        viewModel.recipeLiveData.observe(this) { displayRecipe ->
+            binding.recipeTitle.text = displayRecipe.title
+            binding.ingredientList.text = displayRecipe.ingredients
+            binding.recipeInstructions.text = displayRecipe.instructions
+            binding.recipeCategory.text = displayRecipe.category.name
 
-        val formattedIngredients = "Ingredients:\n" + recipe.ingredients
-            .split(",")
-            .joinToString("\n") { "- ${it.trim()}" }
-        binding.ingredientList.text = formattedIngredients
-
-        val formattedInstructions = "Cooking instructions:\n${recipe.instructions}"
-        binding.recipeInstructions.text = formattedInstructions
+            val imageName = displayRecipe.imageUri.substringAfterLast("/")
+            val imageResId = resources.getIdentifier(
+                imageName,
+                "drawable",
+                packageName
+            )
+            if (imageResId != 0) {
+                binding.recipeImage.setImageResource(imageResId)
+            } else {
+                binding.recipeImage.setImageResource(R.drawable.placeholder_image)
+            }
+        }
 
         binding.deleteButton.setOnClickListener {
             val intent = Intent(this, ConfirmationDialogActivity::class.java).apply {
-                putExtra("recipe", recipe)
+                putExtra("recipe", viewModel.recipeLiveData.value)
             }
             confirmDeleteLauncher.launch(intent)
         }
 
         binding.editButton.setOnClickListener {
-            // TODO
+            val intent = Intent(this, RecipeEditAddActivity::class.java).apply {
+                putExtra("recipe", viewModel.recipeLiveData.value)
+            }
+            startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshRecipe()
     }
 
     companion object {

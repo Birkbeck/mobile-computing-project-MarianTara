@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.IntentCompat
 import co.uk.bbk.culinarycompanion.databinding.ActivityRecipeEditAddBinding
 
 class RecipeEditAddActivity : ComponentActivity() {
@@ -15,6 +16,7 @@ class RecipeEditAddActivity : ComponentActivity() {
     private lateinit var binding: ActivityRecipeEditAddBinding
     private val viewModel: RecipeEditAddViewModel by viewModels()
     private var selectedImageName: String? = null
+    private var recipeToEdit: Recipe? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,19 @@ class RecipeEditAddActivity : ComponentActivity() {
         setupImageSpinner()
         viewModel.loadImageOptions()
 
+        recipeToEdit = IntentCompat.getSerializableExtra(intent, "recipe", Recipe::class.java)
+
+        recipeToEdit?.let { recipe ->
+            binding.recipeTitleInput.setText(recipe.title)
+            binding.ingredientsInput.setText(recipe.ingredients)
+            binding.instructionsInput.setText(recipe.instructions)
+            binding.categorySpinner.setSelection(Category.values().indexOf(recipe.category))
+
+            selectedImageName = recipe.imageUri
+            updateImagePreview()
+        }
+
+
         binding.saveButton.setOnClickListener {
             val title = binding.recipeTitleInput.text.toString().trim()
             val ingredients = binding.ingredientsInput.text.toString().trim()
@@ -33,29 +48,32 @@ class RecipeEditAddActivity : ComponentActivity() {
             val category = Category.valueOf(binding.categorySpinner.selectedItem.toString())
 
             if (title.isNotEmpty() && ingredients.isNotEmpty() && instructions.isNotEmpty() && selectedImageName != null) {
-                val newRecipe = Recipe(
+                val recipe = Recipe(
+                    id = recipeToEdit?.id ?: 0, // use existing ID if editing
                     title = title,
                     ingredients = ingredients,
                     instructions = instructions,
                     category = category,
                     imageUri = selectedImageName!!
                 )
-                viewModel.insertRecipe(newRecipe) {
-                    runOnUiThread {
-                        Toast.makeText(this, "Recipe saved", Toast.LENGTH_SHORT).show()
+
+                if (recipeToEdit != null) {
+                    viewModel.updateRecipe(recipe) {
+                        finish()
+                    }
+                } else {
+                    viewModel.insertRecipe(recipe) {
                         finish()
                     }
                 }
             } else {
-                // Validation feedback
+                // basic validation
                 binding.recipeTitleInput.error = if (title.isEmpty()) "Required" else null
                 binding.ingredientsInput.error = if (ingredients.isEmpty()) "Required" else null
                 binding.instructionsInput.error = if (instructions.isEmpty()) "Required" else null
-                if (selectedImageName == null) {
-                    Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
-                }
             }
         }
+
 
         binding.cancelButton.setOnClickListener {
             finish()
@@ -83,13 +101,26 @@ class RecipeEditAddActivity : ComponentActivity() {
             }
 
             binding.imageSpinner.adapter = adapter
-            binding.imageSpinner.setSelection(0)
+
+            // Determine and set selection based on edit mode
+            val selectedDisplay = recipeToEdit?.imageUri
+                ?.substringAfterLast('/')
+                ?.replace('_', ' ')
+
+            val preselectIndex = if (selectedDisplay != null) {
+                options.indexOf(selectedDisplay).takeIf { it > 0 } ?: 0
+            } else {
+                0
+            }
+
+            binding.imageSpinner.setSelection(preselectIndex)
+
 
             binding.imageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     if (position > 0) {
                         val selectedDisplayName = displayNames[position - 1]
-                        selectedImageName = selectedDisplayName.replace(' ', '_')  // restore actual resource name
+                        selectedImageName = selectedDisplayName.replace(' ', '_')
                         updateImagePreview()
                     } else {
                         selectedImageName = null
@@ -103,8 +134,6 @@ class RecipeEditAddActivity : ComponentActivity() {
             }
         }
     }
-
-
 
     private fun updateImagePreview() {
         selectedImageName?.let { imageName ->

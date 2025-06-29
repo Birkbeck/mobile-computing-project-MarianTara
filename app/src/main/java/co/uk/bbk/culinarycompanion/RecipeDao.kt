@@ -1,5 +1,6 @@
 package co.uk.bbk.culinarycompanion
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import co.uk.bbk.culinarycompanion.Recipe
 import co.uk.bbk.culinarycompanion.Category
@@ -33,8 +34,9 @@ interface RecipeDao {
     @Query("SELECT * FROM Recipes")
     suspend fun getAllRecipesList(): List<Recipe>
 
-//    @Query("SELECT DISTINCT imageUri FROM Recipes WHERE imageUri IS NOT NULL")
-//    suspend fun getAllImageOptions(): List<String>
+    @Query("SELECT * FROM Recipes WHERE id = :id")
+    suspend fun getRecipeById(id: Int): Recipe?
+
 
 
 }

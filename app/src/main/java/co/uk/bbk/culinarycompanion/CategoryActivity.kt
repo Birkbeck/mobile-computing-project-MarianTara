@@ -55,8 +55,11 @@ class CategoryActivity : AppCompatActivity() {
         adapter = CategoryRecipeAdapter(
             recipeList = listOf(),
             onEditClick = { recipe ->
-                // TODO: open edit screen
+                val intent = Intent(this, RecipeEditAddActivity::class.java)
+                intent.putExtra("recipe", recipe)
+                startActivity(intent)
             },
+
             onDeleteClick = { recipe ->
                 selectedRecipe = recipe
                 val intent = Intent(this, ConfirmationDialogActivity::class.java)
@@ -96,4 +99,15 @@ class CategoryActivity : AppCompatActivity() {
         // Prevent search bar from grabbing focus on launch
         binding.root.clearFocus()
     }
+    override fun onResume() {
+        super.onResume()
+        val categoryName = intent.getStringExtra("category_name") ?: return
+        try {
+            val categoryEnum = Category.valueOf(categoryName)
+            viewModel.loadRecipesForCategory(categoryEnum)
+        } catch (e: IllegalArgumentException) {
+            // already logged in onCreate
+        }
+    }
+
 }

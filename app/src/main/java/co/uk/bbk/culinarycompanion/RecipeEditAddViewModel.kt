@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 class RecipeEditAddViewModel(application: Application) : AndroidViewModel(application) {
 
     private val recipeDao = RecipeDatabase.getInstance(application).recipeDao()
-
     private val _imageNames = MutableLiveData<List<String>>()
+
     val imageNames: LiveData<List<String>> = _imageNames
 
     fun loadImageOptions() {
@@ -40,10 +40,11 @@ class RecipeEditAddViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun updateRecipe(recipe: Recipe, onComplete: () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun updateRecipe(recipe: Recipe, onDone: () -> Unit) {
+        viewModelScope.launch {
             recipeDao.update(recipe)
-            onComplete()
+            onDone()
         }
     }
+
 }
