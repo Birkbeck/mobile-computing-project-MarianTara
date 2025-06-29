@@ -27,9 +27,6 @@
       <SelectionState runConfigName="MainActivity (4)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CategoryActivity">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="CategoryActivity (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
