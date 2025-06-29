@@ -8,6 +8,7 @@ import co.uk.bbk.culinarycompanion.databinding.RecipeItemBinding
 
 class RecipeAdapter(
     private var recipeList: List<Recipe>,
+    private val onClick: ((Recipe) -> Unit)? = null,
     private val onEditClick: ((Recipe) -> Unit)? = null,
     private val onDeleteClick: ((Recipe) -> Unit)? = null
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
@@ -44,21 +45,11 @@ class RecipeAdapter(
             Log.w("RecipeAdapter", "Image not found for name: $imageName")
         }
 
+        holder.binding.root.setOnClickListener {
+            onClick?.invoke(recipe)
+        }
+
     }
-
-
-
     override fun getItemCount(): Int = recipeList.size
-
-    fun updateList(newList: List<Recipe>) {
-        recipeList = newList
-        notifyDataSetChanged()
-    }
-    fun updateData(newRecipes: List<Recipe>) {
-        recipeList = newRecipes
-        notifyDataSetChanged()
-    }
-
-
 
 }

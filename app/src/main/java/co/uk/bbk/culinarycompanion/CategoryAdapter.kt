@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import co.uk.bbk.culinarycompanion.databinding.CategorySectionBinding
 
 class CategoryAdapter(
-    private val onCategoryClick: (Category) -> Unit
+    private val onCategoryClick: (Category) -> Unit,
+    private val onRecipeClick: (Recipe) -> Unit
+
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private val groupedRecipes: MutableMap<Category, List<Recipe>> = mutableMapOf()
@@ -32,13 +34,14 @@ class CategoryAdapter(
 
         holder.binding.recipeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            adapter = RecipeAdapter(recipes)
+            adapter = RecipeAdapter(recipes, onRecipeClick)
         }
 
         // Handle category click
         holder.binding.categoryTitle.setOnClickListener {
             onCategoryClick(category)
         }
+
     }
 
     /** Replace the whole map and refresh */

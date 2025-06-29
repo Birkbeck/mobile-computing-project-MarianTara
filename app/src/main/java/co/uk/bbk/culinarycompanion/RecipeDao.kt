@@ -2,9 +2,6 @@ package co.uk.bbk.culinarycompanion
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import co.uk.bbk.culinarycompanion.Recipe
-import co.uk.bbk.culinarycompanion.Category
-
 
 @Dao
 interface RecipeDao {

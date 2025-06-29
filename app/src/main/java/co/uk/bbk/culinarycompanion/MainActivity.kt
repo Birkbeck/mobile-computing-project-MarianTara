@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mockViewModel: MockDataViewModel
     private lateinit var recipeViewModel: RecipeViewModel
-    private lateinit var categoryAdapter: CategoryAdapter
+//    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +33,16 @@ class MainActivity : AppCompatActivity() {
         recipeViewModel.getGroupedRecipes()
 
         // Set up adapter and category click handler
-        val categoryAdapter = CategoryAdapter { selectedCategory ->
+        val categoryAdapter = CategoryAdapter ({ selectedCategory ->
             // Launch category-specific recipe view
             val intent = Intent(this, CategoryActivity::class.java)
             intent.putExtra("category_name", selectedCategory.name)
             startActivity(intent)
-        }
+        },
+            onRecipeClick = { recipe ->
+                RecipeDetailsActivity.start(this, recipe)
+            }
+        )
 
         // Set up RecyclerView
         binding.categoryRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -55,4 +59,9 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    override fun onResume() {
+        super.onResume()
+        recipeViewModel.getGroupedRecipes()
+    }
+
 }

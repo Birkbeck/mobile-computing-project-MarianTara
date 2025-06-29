@@ -2,7 +2,11 @@ package co.uk.bbk.culinarycompanion
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -36,8 +40,32 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
         viewModel.recipeLiveData.observe(this) { displayRecipe ->
             binding.recipeTitle.text = displayRecipe.title
-            binding.ingredientList.text = displayRecipe.ingredients
-            binding.recipeInstructions.text = displayRecipe.instructions
+            val ingredientsText = SpannableStringBuilder().apply {
+                val boldTitle = "List of ingredients:\n"
+                append(boldTitle)
+                setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    boldTitle.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                append(displayRecipe.ingredients)
+            }
+
+            val instructionsText = SpannableStringBuilder().apply {
+                val title = "Cooking instructions:\n"
+                append(title)
+                setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    title.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                append(displayRecipe.instructions)
+            }
+
+            binding.ingredientList.text = ingredientsText
+            binding.recipeInstructions.text = instructionsText
             binding.recipeCategory.text = displayRecipe.category.name
 
             val imageName = displayRecipe.imageUri.substringAfterLast("/")
