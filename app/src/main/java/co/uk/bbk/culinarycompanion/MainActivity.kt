@@ -8,16 +8,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.culinarycompanion.databinding.ActivityMainBinding
 
+/**
+ * Main activity displaying grouped recipes by category.
+ * Provides navigation to recipe creation and category-specific views.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mockViewModel: MockDataViewModel
     private lateinit var recipeViewModel: RecipeViewModel
-//    private lateinit var categoryAdapter: CategoryAdapter
 
+    /**
+     * Initialises view binding, ViewModels, RecyclerView adapter
+     * and observers for grouped recipe data.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         // Set up view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -53,12 +59,17 @@ class MainActivity : AppCompatActivity() {
             categoryAdapter.updateData(grouped)
         }
 
+        // Set up create button
         binding.createRecipeButton.setOnClickListener {
             val intent = Intent(this, RecipeEditAddActivity::class.java)
             startActivity(intent)
         }
 
     }
+
+    /**
+     * Refreshes recipe data when returning to activity.
+     */
     override fun onResume() {
         super.onResume()
         recipeViewModel.getGroupedRecipes()

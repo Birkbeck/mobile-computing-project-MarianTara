@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.uk.bbk.culinarycompanion.databinding.ActivityCategoryBinding
 
+/**
+ * Displays a list of recipes within a selected category.
+ * Supports searching, editing, deleting and viewing recipe details.
+ */
 class CategoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCategoryBinding
@@ -21,7 +25,9 @@ class CategoryActivity : AppCompatActivity() {
 
     private var selectedRecipe: Recipe? = null
 
-    // confirmation view Launcher
+    /**
+     * Launches confirmation dialog and deletes recipe if confirmed.
+     */
     private val confirmDeleteLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -34,6 +40,9 @@ class CategoryActivity : AppCompatActivity() {
             }
         }
 
+    /**
+     * Initialises layout, retrieves category, sets up adapter and observers.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
@@ -95,10 +104,13 @@ class CategoryActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         // Prevent search bar from grabbing focus on launch
         binding.root.clearFocus()
     }
+
+    /**
+     * Reloads category data when resuming the activity.
+     */
     override fun onResume() {
         super.onResume()
         val categoryName = intent.getStringExtra("category_name") ?: return

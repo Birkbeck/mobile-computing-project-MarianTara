@@ -12,7 +12,7 @@
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Culinary Companion"
+            android:text="@string/culinary_companion"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
@@ -25,7 +25,7 @@
             android:src="@drawable/placeholder_image"
             android:scaleType="centerCrop"
             android:background="#CCCCCC"
-            android:contentDescription="Recipe image"
+            android:contentDescription="@string/recipe_image"
             android:layout_marginBottom="16dp" />
 
 
@@ -46,14 +46,14 @@
             android:id="@+id/recipeTitleInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Recipe Title"
+            android:hint="@string/recipe_title"
             android:layout_marginBottom="16dp" />
 
         <EditText
             android:id="@+id/ingredientsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="List of ingredients"
+            android:hint="@string/list_of_ingredients"
             android:inputType="textMultiLine"
             android:minLines="3"
             android:layout_marginBottom="16dp" />
@@ -62,7 +62,7 @@
             android:id="@+id/instructionsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cooking instructions"
+            android:hint="@string/cooking_instructions"
             android:inputType="textMultiLine"
             android:minLines="4"
             android:layout_marginBottom="24dp" />
@@ -75,14 +75,14 @@
 
             <Button
                 android:id="@+id/saveButton"
-                android:text="SAVE"
+                android:text="@string/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp" />
 
             <Button
                 android:id="@+id/cancelButton"
-                android:text="CANCEL"
+                android:text="@string/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

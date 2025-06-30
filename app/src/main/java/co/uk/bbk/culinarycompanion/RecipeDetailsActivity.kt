@@ -12,11 +12,19 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import co.uk.bbk.culinarycompanion.databinding.ActivityRecipeDetailsBinding
 
+/**
+ * Displays the full details of a selected recipe in a read-only view.
+ * Allows navigation to edit or delete the recipe.
+ */
 class RecipeDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecipeDetailsBinding
     private val viewModel: RecipeDetailsViewModel by viewModels()
 
+    /**
+     * Handles result from the confirmation dialog for deletion.
+     * Finishes the activity if deletion is confirmed.
+     */
     private val confirmDeleteLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
@@ -25,6 +33,9 @@ class RecipeDetailsActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Initialises the layout, observes recipe data and sets up UI interactions.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipeDetailsBinding.inflate(layoutInflater)
@@ -40,6 +51,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
         viewModel.recipeLiveData.observe(this) { displayRecipe ->
             binding.recipeTitle.text = displayRecipe.title
+
             val ingredientsText = SpannableStringBuilder().apply {
                 val boldTitle = "List of ingredients:\n"
                 append(boldTitle)
@@ -96,11 +108,17 @@ class RecipeDetailsActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Refreshes the displayed recipe when returning to the activity.
+     */
     override fun onResume() {
         super.onResume()
         viewModel.refreshRecipe()
     }
 
+    /**
+     * Starts this activity with the provided recipe.
+     */
     companion object {
         fun start(context: Context, recipe: Recipe) {
             val intent = Intent(context, RecipeDetailsActivity::class.java).apply {

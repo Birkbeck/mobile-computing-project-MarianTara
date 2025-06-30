@@ -8,13 +8,20 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for handling logic in RecipeEditAddActivity.
+ * Manages image options and database insert/update operations.
+ */
 class RecipeEditAddViewModel(application: Application) : AndroidViewModel(application) {
 
     private val recipeDao = RecipeDatabase.getInstance(application).recipeDao()
     private val _imageNames = MutableLiveData<List<String>>()
-
     val imageNames: LiveData<List<String>> = _imageNames
 
+    /**
+     * Loads available drawable image names for selection in the UI.
+     * Filters out preview variants and formats names for display.
+     */
     fun loadImageOptions() {
         viewModelScope.launch(Dispatchers.Default) {
             val fields = R.drawable::class.java.fields
@@ -22,7 +29,7 @@ class RecipeEditAddViewModel(application: Application) : AndroidViewModel(applic
             val imageNames = fields.mapNotNull { field ->
                 try {
                     val name = field.name
-                    if (name.endsWith("_preview") ) null
+                    if (name.endsWith("_preview")) null
                     else name.replace('_', ' ')
                 } catch (e: Exception) {
                     null
@@ -33,6 +40,9 @@ class RecipeEditAddViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    /**
+     * Inserts a new recipe into the database and triggers a callback on completion.
+     */
     fun insertRecipe(recipe: Recipe, onComplete: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             recipeDao.insert(recipe)
@@ -40,11 +50,13 @@ class RecipeEditAddViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    /**
+     * Updates an existing recipe and triggers a callback when done.
+     */
     fun updateRecipe(recipe: Recipe, onDone: () -> Unit) {
         viewModelScope.launch {
             recipeDao.update(recipe)
             onDone()
         }
     }
-
 }

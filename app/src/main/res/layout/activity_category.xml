@@ -15,7 +15,7 @@
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search..."
+        android:hint="@string/search"
         android:background="@drawable/search_background"
         android:padding="12dp"
         android:inputType="text" />
@@ -37,7 +37,7 @@
             style="@style/OutlinedButton" />
     </LinearLayout>
 
-    <!-- RecyclerView ) -->
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipeListRecyclerView"
         android:layout_width="match_parent"
@@ -46,5 +46,4 @@
         android:clipToPadding="false"
         android:paddingBottom="8dp"
         android:scrollbars="vertical" />
-
 </LinearLayout>

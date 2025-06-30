@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.IntentCompat
 import co.uk.bbk.culinarycompanion.databinding.ActivityRecipeEditAddBinding
 
+/**
+ * Activity for adding a new recipe or editing an existing one.
+ * Allows entry of title, ingredients, instructions, category and selection if an image.
+ */
 class RecipeEditAddActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityRecipeEditAddBinding
@@ -18,6 +20,9 @@ class RecipeEditAddActivity : ComponentActivity() {
     private var selectedImageName: String? = null
     private var recipeToEdit: Recipe? = null
 
+    /**
+     * Initialises layout, pre-fills fields if editing and sets up save/cancel actions.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +45,6 @@ class RecipeEditAddActivity : ComponentActivity() {
             updateImagePreview()
         }
 
-
         binding.saveButton.setOnClickListener {
             val title = binding.recipeTitleInput.text.toString().trim()
             val ingredients = binding.ingredientsInput.text.toString().trim()
@@ -49,7 +53,7 @@ class RecipeEditAddActivity : ComponentActivity() {
 
             if (title.isNotEmpty() && ingredients.isNotEmpty() && instructions.isNotEmpty() && selectedImageName != null) {
                 val recipe = Recipe(
-                    id = recipeToEdit?.id ?: 0, // use existing ID if editing
+                    id = recipeToEdit?.id ?: 0,
                     title = title,
                     ingredients = ingredients,
                     instructions = instructions,
@@ -67,19 +71,20 @@ class RecipeEditAddActivity : ComponentActivity() {
                     }
                 }
             } else {
-                // basic validation
                 binding.recipeTitleInput.error = if (title.isEmpty()) "Required" else null
                 binding.ingredientsInput.error = if (ingredients.isEmpty()) "Required" else null
                 binding.instructionsInput.error = if (instructions.isEmpty()) "Required" else null
             }
         }
 
-
         binding.cancelButton.setOnClickListener {
             finish()
         }
     }
 
+    /**
+     * Populates the category dropdown with all defined recipe categories.
+     */
     private fun setupCategorySpinner() {
         val categoryNames = Category.entries.map { it.name }
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryNames)
@@ -87,6 +92,9 @@ class RecipeEditAddActivity : ComponentActivity() {
         binding.categorySpinner.adapter = adapter
     }
 
+    /**
+     * Loads image options into the spinner and sets up image preview behaviour.
+     */
     private fun setupImageSpinner() {
         viewModel.imageNames.observe(this) { displayNames ->
             val placeholder = "Select image"
@@ -102,7 +110,6 @@ class RecipeEditAddActivity : ComponentActivity() {
 
             binding.imageSpinner.adapter = adapter
 
-            // Determine and set selection based on edit mode
             val selectedDisplay = recipeToEdit?.imageUri
                 ?.substringAfterLast('/')
                 ?.replace('_', ' ')
@@ -114,7 +121,6 @@ class RecipeEditAddActivity : ComponentActivity() {
             }
 
             binding.imageSpinner.setSelection(preselectIndex)
-
 
             binding.imageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -135,6 +141,9 @@ class RecipeEditAddActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Updates the recipe image preview based on the selected image name.
+     */
     private fun updateImagePreview() {
         selectedImageName?.let { imageName ->
             val imageResId = resources.getIdentifier(imageName, "drawable", packageName)
@@ -145,5 +154,4 @@ class RecipeEditAddActivity : ComponentActivity() {
             }
         }
     }
-
 }

@@ -17,9 +17,15 @@ class CategoryRecipeAdapter(
     private val onRecipeClick: (Recipe) -> Unit
 ) : RecyclerView.Adapter<CategoryRecipeAdapter.RecipeViewHolder>() {
 
+    /**
+     * ViewHolder for displaying a single recipe with image, title, and actions.
+     */
     inner class RecipeViewHolder(val binding: CategoryRecipeItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    /**
+     * Inflates the layout for a recipe item view.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val binding = CategoryRecipeItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -29,6 +35,9 @@ class CategoryRecipeAdapter(
         return RecipeViewHolder(binding)
     }
 
+    /**
+     * Binds recipe data to the view and sets up click actions for edit, delete and Recipe details.
+     */
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipeList[position]
         val context = holder.itemView.context
@@ -51,7 +60,7 @@ class CategoryRecipeAdapter(
             Log.w("CategoryRecipeAdapter", "Image not found for name: $imageName")
         }
 
-        //  opening recipe details
+        // Open recipe details
         holder.itemView.setOnClickListener {
             onRecipeClick(recipe)
         }
@@ -61,12 +70,13 @@ class CategoryRecipeAdapter(
         holder.binding.deleteButton.setOnClickListener { onDeleteClick(recipe) }
     }
 
-
-
+    /**
+     * Returns the number of recipes in the list.
+     */
     override fun getItemCount(): Int = recipeList.size
 
     /**
-     * Update displayed list of recipes.
+     * Updates the recipe list and refreshes the RecyclerView.
      */
     fun updateData(newList: List<Recipe>) {
         recipeList = newList

@@ -10,10 +10,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Displays a confirmation dialog for recipe deletion.
+ * Deletes recipe from the database if user confirms.
+ */
 class ConfirmationDialogActivity : AppCompatActivity() {
 
     private lateinit var recipeToDelete: Recipe
 
+    /**
+     * Sets up UI and handles confirmation or cancellation of deletion.
+     */
     @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

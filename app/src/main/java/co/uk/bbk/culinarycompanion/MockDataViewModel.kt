@@ -6,10 +6,19 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for populating the database with mock recipes on first launch.
+ * Used to pre-fill the app with sample data across all categories.
+ * In real world this app will use a database and this will not be used
+ * All data passed in the database is from Google and AI generated, All code is mine
+ */
 class MockDataViewModel(application: Application) : AndroidViewModel(application) {
     private val db = RecipeDatabase.getInstance(application)
     private val dao = db.recipeDao()
 
+    /**
+     * Populates the Room database with predefined recipes if it is empty.
+     */
     fun populateDatabaseIfEmpty() {
         viewModelScope.launch(Dispatchers.IO) {
             val currentRecipes = dao.getAllRecipesList()

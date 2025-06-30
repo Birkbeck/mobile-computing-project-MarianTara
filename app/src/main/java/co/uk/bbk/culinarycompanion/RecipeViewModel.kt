@@ -6,14 +6,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for retrieving and exposing recipes grouped by category.
+ * Used in MainActivity to display the home screen layout.
+ */
 class RecipeViewModel : ViewModel() {
-//
+
     private val _groupedRecipes = MutableLiveData<Map<Category, List<Recipe>>>()
     val groupedRecipes: LiveData<Map<Category, List<Recipe>>> = _groupedRecipes
 
     var recipeDao: RecipeDao? = null
 
-
+      /**
+      * Fetches all recipes from the DAO and groups them by category.
+      */
     fun getGroupedRecipes() {
         viewModelScope.launch {
             recipeDao?.let { dao ->
@@ -23,5 +29,4 @@ class RecipeViewModel : ViewModel() {
             }
         }
     }
-
 }

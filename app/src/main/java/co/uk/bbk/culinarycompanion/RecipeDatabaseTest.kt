@@ -9,6 +9,10 @@ import org.junit.*
 import org.junit.runner.RunWith
 import java.io.IOException
 
+/**
+ * Unit tests for RecipeDatabase using a Room database.
+ * Verifies insert, retrieval and deletion operations.
+ */
 @RunWith(AndroidJUnit4::class)
 class RecipeDatabaseTest {
 
@@ -24,6 +28,9 @@ class RecipeDatabaseTest {
         imageUri = "drawable/test_image"
     )
 
+    /**
+     * Creates a Room database and initialises the DAO before each test.
+     */
     @Before
     fun createDb() {
         val context: Context = ApplicationProvider.getApplicationContext()
@@ -33,10 +40,16 @@ class RecipeDatabaseTest {
         dao = db.recipeDao()
     }
 
+    /**
+     * Closes the Room database after each test.
+     */
     @After
     @Throws(IOException::class)
     fun closeDb() = db.close()
 
+    /**
+     * Tests inserting a recipe and retrieving it from the database.
+     */
     @Test
     fun insertAndRetrieveRecipe() = runBlocking {
         dao.insert(testRecipe)
@@ -45,6 +58,9 @@ class RecipeDatabaseTest {
         Assert.assertEquals("Test Recipe", recipes[0].title)
     }
 
+    /**
+     * Tests retrieving a recipe by its ID.
+     */
     @Test
     fun getRecipeById() = runBlocking {
         dao.insert(testRecipe)
@@ -53,6 +69,9 @@ class RecipeDatabaseTest {
         Assert.assertEquals("Test Recipe", found?.title)
     }
 
+    /**
+     * Tests deleting a recipe and verifying it's removed from the database.
+     */
     @Test
     fun deleteRecipe() = runBlocking {
         dao.insert(testRecipe)

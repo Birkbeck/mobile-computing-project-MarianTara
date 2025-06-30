@@ -20,4 +20,6 @@
     <string name="delete_recipe" />
     <string name="list_of_ingredients_n_eggs_n_flour">List of ingredients:\n- Eggs\n- Flour</string>
     <string name="confirm_delete_message">Are you sure you want to delete this?</string>
+    <string name="category_breakfast">Category: Breakfast</string>
+    <string name="search">Search...</string>
 </resources>

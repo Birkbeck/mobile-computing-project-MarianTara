@@ -5,7 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-
+/**
+ * Entity class representing a Recipe stored in the Room database.
+ */
 @Entity(tableName = "Recipes")
 data class Recipe(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -16,8 +18,11 @@ data class Recipe(
     val category: Category,
     @field:ColumnInfo(name = "imageUri")
     val imageUri: String
-): Serializable
+) : Serializable
 
+/**
+ * Enum representing recipe categories.
+ */
 enum class Category {
     Breakfast,
     Brunch,
@@ -26,4 +31,3 @@ enum class Category {
     Desserts,
     Other
 }
-
